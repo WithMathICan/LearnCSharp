@@ -34,12 +34,31 @@ namespace Patterns {
         }
     }
 
+    class AOIncrementImplementation : IArithmeticOperations {
+        IArithmeticOperations BaseImplementation;
+
+        public AOIncrementImplementation(IArithmeticOperations arithmetic) {
+            BaseImplementation = arithmetic;
+        }
+
+        public int Add(int x, int y) {
+            Console.WriteLine("Add method called AOIncrementImplementation");
+            return BaseImplementation.Add(x, y) + 1;
+        }
+
+        public int Multiply(int x, int y) {
+            Console.WriteLine("Multiply method called AOIncrementImplementation");
+            return BaseImplementation.Multiply(x, y) + 1;
+        }
+    }
+
     internal class Decorator {
 
-        //static void Main() {
-        //    IArithmeticOperations ao = new AOImplementation();
-        //    ao = new AOLoggerImplementation(ao);
-        //    Console.WriteLine(ao.Add(3, 4));
-        //}
+        static void Main() {
+            IArithmeticOperations ao = new AOImplementation();
+            ao = new AOLoggerImplementation(ao);
+            ao = new AOIncrementImplementation(ao);
+            Console.WriteLine(ao.Add(3, 4));
+        }
     }
 }

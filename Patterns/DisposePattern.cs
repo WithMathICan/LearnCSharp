@@ -64,8 +64,8 @@ namespace Patterns {
     }
 
     internal class DisposePattern {
-        static void Main() {
-            using (new MainClass());
-        }
+        //static void Main() {
+        //    using (new MainClass());
+        //}
     }
 }
