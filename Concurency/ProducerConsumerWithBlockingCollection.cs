@@ -10,7 +10,7 @@ namespace Concurency {
             while (true) {
                 await Task.Delay(Rand.Next(200, 1000), token);
                 if (Events.TryDequeue(out int value)) {
-                    EventsQueue.Add(value);
+                    EventsQueue.Add(value, token);
                     Console.WriteLine($"~~ Producer Value = {value}, Thread = {Thread.CurrentThread.ManagedThreadId}");
                 } else {
                     break;
