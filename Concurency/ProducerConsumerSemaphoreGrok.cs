@@ -7,6 +7,7 @@ namespace Concurency {
         private readonly SemaphoreSlim SpaceAvailable;
         private readonly SemaphoreSlim ItemsAvailable;
         private bool _isAddingCompleted = false;
+        private readonly object _lock = new object();
 
         public CustomBlockingQueue(int capacity) {
             _capacity = capacity;
@@ -17,17 +18,21 @@ namespace Concurency {
         public void Add(int item, CancellationToken token) {
             if (_isAddingCompleted) throw new InvalidOperationException("Adding is complete.");
             SpaceAvailable.Wait(token);
-            _queue.Enqueue(item);
-            ItemsAvailable.Release();
+            lock (_lock) {
+                _queue.Enqueue(item);
+                ItemsAvailable.Release();
+            }
         }
 
         public bool TryTake(out int item, CancellationToken token) {
             item = default;
             if (_isAddingCompleted && _queue.IsEmpty) return false;
             ItemsAvailable.Wait(token);
-            bool res = _queue.TryDequeue(out item);
-            if (res) SpaceAvailable.Release();
-            return res;
+            lock (_lock) {
+                bool res = _queue.TryDequeue(out item);
+                if (res) SpaceAvailable.Release();
+                return res;
+            }
         }
 
         public void CompleteAdding() {
