@@ -59,7 +59,7 @@ class  Consumer : IDisposable  {
 }
 
 class ProducerConsumer() {
-    static async Task Main() {
+    static async Task Main1() {
         ConcurrentQueue<int> queue = new();
         Producer producer = new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3);
         Consumer consumer = new Consumer(producer);
