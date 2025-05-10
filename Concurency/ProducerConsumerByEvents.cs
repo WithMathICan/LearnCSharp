@@ -8,7 +8,7 @@ class Producer(IEnumerable<int> arr, int maxInQueue) {
     private readonly Stack<int> Data = new(arr ?? []);
     private readonly Random Rand = new Random();
     private readonly int MaxInQueue = maxInQueue;
-    public event EventHandler ProducingFinished;
+    public event EventHandler? ProducingFinished;
     public bool IsProducingFinished { private set; get; } = false;
 
     public async Task Produce(ConcurrentQueue<int> queue) {

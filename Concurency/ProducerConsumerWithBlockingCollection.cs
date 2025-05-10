@@ -32,7 +32,7 @@ namespace Concurency {
     }
 
     internal class ProducerConsumerWithBlockingCollection {
-        public static async Task Main() {
+        public static async Task Main1() {
             using BlockingCollection<int> eventsQueue = new(3);
             ConcurrentQueue<int> allEvents = new();
             using CancellationTokenSource cts = new();
