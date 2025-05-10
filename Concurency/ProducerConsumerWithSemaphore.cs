@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
 
 namespace Concurency {
     class QueueWithSemaphore(SemaphoreSlim items, SemaphoreSlim space) {
@@ -67,7 +61,7 @@ namespace Concurency {
     }
 
     internal class ProducerConsumerWithSemaphore {
-        public static async Task Main() {
+        public static async Task Main1() {
             int maxInQueue = 3;
             SemaphoreSlim spaceSemaphore = new(maxInQueue, maxInQueue);
             SemaphoreSlim itemsSemaphore = new(0);
