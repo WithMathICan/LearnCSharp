@@ -7,7 +7,7 @@ namespace Concurency {
         private readonly SemaphoreSlim SpaceAvailable;
         private readonly SemaphoreSlim ItemsAvailable;
         private bool _isAddingCompleted = false;
-        private readonly object _lock = new object();
+        private readonly object _lock = new();
 
         public CustomBlockingQueue(int capacity) {
             _capacity = capacity;
@@ -41,7 +41,7 @@ namespace Concurency {
     }
 
     class Program {
-        public static async Task Main() {
+        public static async Task Main1() {
             var queue = new CustomBlockingQueue(3);
             using CancellationTokenSource cts = new();
             ConcurrentQueue<int> allEvents = new();
