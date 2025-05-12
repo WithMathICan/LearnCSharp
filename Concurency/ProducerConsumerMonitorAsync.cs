@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Concurency {
+﻿namespace Concurency {
     internal class ProducerConsumerMonitorAsync {
 
-        static async Task Main() {
+        static async Task Main1() {
             int maxInQueue = 3;
             Queue<int> events = new();
             Queue<int> initialValues = new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
