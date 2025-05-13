@@ -20,6 +20,10 @@ namespace Concurency {
             }
         }
 
+        public async Task WaitAsync() {
+            await Task.Run(() => Wait());
+        }
+
         public void Release() {
             lock (_lock) {
                 if (_initial < _max) { 

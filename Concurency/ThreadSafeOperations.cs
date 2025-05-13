@@ -32,7 +32,7 @@
 
     internal class ThreadSafeOperations {
 
-        static void Main() {
+        static void Main1() {
             new IncClass().Test();
         }
     }
