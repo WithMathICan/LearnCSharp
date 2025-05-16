@@ -14,6 +14,7 @@ namespace EFPractice01.Models {
         public int PassingScore { get; set; }
 
         public int LessonId { get; set; }
+        public Lesson Lesson { get; set; }
 
         public List<Student> Students = [];
     }

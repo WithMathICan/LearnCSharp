@@ -17,8 +17,9 @@ namespace EFPractice01.Models {
         public int OrderNumber { get; set; }
 
         public int CourseId { get; set; }
+        public Course Course { get; set; }
 
-        public List<Quiz> Quizzes = [];
+        public List<Quiz> Quizzes { get; set; } = [];
     }
 }
 

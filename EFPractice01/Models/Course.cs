@@ -18,12 +18,12 @@ namespace EFPractice01.Models {
         [Range(0, 10000.00)]
         public decimal Price { get; set; }
 
-        public List<Instructor> Instructors = [];
+        public List<CourseInstructor> Instructors { get; set; } = [];
 
-        public List<Lesson> Lessons = [];
+        public List<Lesson> Lessons { get; set; } = [];
 
-        public List<Student> Students = [];
+        public List<CourseStudent> Students { get; set; } = [];
 
-        public List<Review> Reviews = [];
+        public List<Review> Reviews { get; set; } = [];
     }
 }
