@@ -8,7 +8,6 @@ namespace DataStructures {
     internal class MyList : IDisposable {
         int size;
         List<int> list;
-        private bool disposedValue;
 
         public MyList(int _size) {
             size = _size;
@@ -25,7 +24,6 @@ namespace DataStructures {
 
     class List2 : IDisposable {
         List<MyList> list;
-        int size;
         public List2(int size) {
             list = new List<MyList>(size);
             for (int i = 0; i < size; i++) {
