@@ -9,15 +9,19 @@ namespace EFPractice01.Models {
         [Range(1, 5)]
         public int Rating { get; set; }
 
+        private string _comment = "";
         [MaxLength(500)]
-        public string Comment { get; set; }
+        public string Comment { 
+            get => _comment; 
+            set => _comment = value.Trim(); 
+        }
 
         [Required]
         public DateTime SubmissionDate { get; set; }
 
         public int CourseId { get; set; }
-        public Course Course { get; set; }
+        public Course? Course { get; set; }
         public int StudentId { get; set; }
-        public Student Student { get; set; }
+        public Student? Student { get; set; }
     }
 }

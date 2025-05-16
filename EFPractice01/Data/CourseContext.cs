@@ -75,10 +75,9 @@ namespace EFPractice01.Data {
                 .HasForeignKey(qr => qr.StudentId);
 
             modelBuilder.Entity<Student>()
-              .HasMany(s => s.Reviews)
-              .WithOne(r => r.Student)
-              .HasForeignKey(r => r.StudentId);
-
+                .HasMany(s => s.Reviews)
+                .WithOne(r => r.Student)
+                .HasForeignKey(r => r.StudentId);
         }
     }
 }

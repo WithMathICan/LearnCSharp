@@ -78,7 +78,7 @@ namespace EFCoreProfiling.Helper {
 
     // Class to store query information
     public class QueryInfo {
-        public string CommandText { get; set; }
+        public string CommandText { get; set; } = "";
         public TimeSpan Duration { get; set; }
         public DateTime ExecutionTime { get; set; }
     }

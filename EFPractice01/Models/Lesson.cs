@@ -7,17 +7,17 @@ namespace EFPractice01.Models {
 
         [Required]
         [MaxLength(200)]
-        public string Title { get; set; }
+        public string Title { get; set; } = "";
 
         [Required]
         [MaxLength(10000)]
-        public string Content { get; set; }
+        public string Content { get; set; } = "";
 
         [Required]
         public int OrderNumber { get; set; }
 
         public int CourseId { get; set; }
-        public Course Course { get; set; }
+        public Course? Course { get; set; }
 
         public List<Quiz> Quizzes { get; set; } = [];
     }

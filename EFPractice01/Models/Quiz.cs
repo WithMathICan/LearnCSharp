@@ -7,14 +7,15 @@ namespace EFPractice01.Models {
 
         [Required]
         [MaxLength(200)]
-        public string Title { get; set; }
+        [MinLength(2)]
+        public string Title { get; set; } = "";
 
         [Required]
         [Range(0, 100)]
         public int PassingScore { get; set; }
 
         public int LessonId { get; set; }
-        public Lesson Lesson { get; set; }
+        public Lesson? Lesson { get; set; }
 
         public List<QuizStudent> StudentResults = [];
     }

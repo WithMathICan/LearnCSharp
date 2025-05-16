@@ -5,14 +5,23 @@ namespace EFPractice01.Models {
         [Key]
         public int Id { get; set; }
 
+        private string _name = "";
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; }
+        [MinLength(2)]
+        public string Name { 
+            get => _name; 
+            set => _name = value.Trim(); 
+        }
 
+        private string _email = "";
         [Required]
         [EmailAddress]
         [MaxLength(100)]
-        public string Email { get; set; }
+        public string Email { 
+            get => _email; 
+            set => _email = value.Trim(); 
+        }
 
         [Required]
         public DateTime EnrollmentDate { get; set; }

@@ -6,13 +6,17 @@ namespace EFPractice01.Models {
         [Key]
         public int Id { get; set; }
 
+        private string _name = "";
         [Required]
         [MaxLength(250)]
-        public string Name { get; set; }
+        public string Name { 
+            get => _name; 
+            set => _name = value.Trim(); 
+        }
 
         [Required]
         [MaxLength(5000)]
-        public string Description { get; set; }
+        public string Description { get; set; } = "";
 
         [Required]
         [Range(0, 10000.00)]
