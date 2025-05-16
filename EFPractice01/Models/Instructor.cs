@@ -19,7 +19,7 @@ namespace EFPractice01.Models {
 
         public Instructor? Mentor { get; set; }
 
-        public List<CourseInstructor> Courses { get; set; } = [];
+        public List<Course> Courses { get; set; } = [];
 
         public List<Instructor> Mentees { get; set; } = [];
     }

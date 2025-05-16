@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EFPractice01.Models {
-    public class CourseStudent {
+    public class CourseStudent_BAK {
         public int CourseId { get; set; }
         public Course Course { get; set; }
 

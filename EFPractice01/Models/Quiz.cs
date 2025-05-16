@@ -16,6 +16,6 @@ namespace EFPractice01.Models {
         public int LessonId { get; set; }
         public Lesson Lesson { get; set; }
 
-        public List<Student> Students = [];
+        public List<QuizStudent> StudentResults = [];
     }
 }

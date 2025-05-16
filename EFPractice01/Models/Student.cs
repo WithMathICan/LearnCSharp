@@ -17,8 +17,10 @@ namespace EFPractice01.Models {
         [Required]
         public DateTime EnrollmentDate { get; set; }
 
-        public List<CourseStudent> Courses { get; set; } = [];
+        public List<Course> Courses { get; set; } = [];
 
         public List<Review> Reviews { get; set; } = [];
+
+        public List<QuizStudent> QuizesResults { get; set; } = [];
     }
 }
