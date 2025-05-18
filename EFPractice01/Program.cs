@@ -24,9 +24,13 @@ internal class Program {
 class Exercises {
     internal async Task ReadCoursesAndLessons() {
         using var context = new CourseContext();
-        var courses = await context.Courses.Include(c => c.Lessons).AsNoTracking().ToListAsync();
-        foreach(var c in courses) {
-            Console.WriteLine($"Course: '{c.Name}' has {c.Lessons.Count} lessons");
+        try {
+            var courses = await context.Courses.Include(c => c.Lessons).AsNoTracking().ToListAsync();
+            foreach (var c in courses) {
+                Console.WriteLine($"Course: '{c.Name}' has {c.Lessons.Count} lessons");
+            }
+        } catch (Exception ex) {
+            Console.WriteLine($"Error reading courses: {ex.Message}");
         }
     }
 
@@ -38,15 +42,21 @@ class Exercises {
                 .RuleFor(c => c.EnrollmentDate, f => DateTime.Now);
         var students = studentFaker.Generate(20);
         var courses = await context.Courses.Skip(10).Take(20).ToListAsync();
+        if (courses.Count < 20) {
+            throw new InvalidOperationException("Not enough courses");
+        }
         for (int i = 0; i < 20; i++) {
             students[i].Courses.Add(courses[i]);
         }
         context.Students.AddRange(students);
+        var transaction = await context.Database.BeginTransactionAsync();
         try {
             await context.SaveChangesAsync();
+            await transaction.CommitAsync();
             Console.WriteLine("Students successfully added");
         } catch (Exception ex) {
             Console.WriteLine($"Error in students adding {ex.Message}");
+            await transaction.RollbackAsync();
         }
     }
 
@@ -63,11 +73,19 @@ class Exercises {
             return;
         }
         instructor.Email = newEmail;
-        try {
-            await context.SaveChangesAsync();
-            Console.WriteLine("Email is succesfully changed");
-        } catch (Exception ex) {
-            Console.WriteLine($"Error in changing email {ex.Message}");
+        using (var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.RepeatableRead)) {
+            try {
+                var existing = await context.Instructors.FirstOrDefaultAsync(i => i.Id == instructorId);
+                if (existing.RowVersion != instructor.RowVersion) {
+                    Console.WriteLine("Could not change Email. Record was changed by another user");
+                    return;
+                }
+                await context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                Console.WriteLine("Email is succesfully changed");
+            } catch (Exception ex) {
+                Console.WriteLine($"Error in changing email {ex.Message}");
+            }
         }
     }
 
@@ -85,6 +103,50 @@ class Exercises {
         } catch (Exception ex) {
             Console.WriteLine($"Error while deleting {ex.Message}");
         }
+    }
+
+    public async Task<UpdateInstructorResult> UpdateInstructorEmail_Claude(int instructorId, string newEmail) {
+        using var context = new CourseContext();
+
+        // Start transaction to cover all operations
+        using var transaction = await context.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead);
+
+        try {
+            // Get the instructor
+            var instructor = await context.Instructors.FindAsync(instructorId);
+            if (instructor == null) {
+                return new UpdateInstructorResult { Success = false, Message = "Instructor does not exist" };
+            }
+
+            // Check if email is already in use
+            bool emailExists = await context.Instructors
+                .AnyAsync(i => i.Email == newEmail && i.Id != instructorId);
+
+            if (emailExists) {
+                return new UpdateInstructorResult { Success = false, Message = "Email already in use by another instructor" };
+            }
+
+            // Update email
+            instructor.Email = newEmail;
+
+            // Try to save - this will automatically check RowVersion
+            await context.SaveChangesAsync();
+
+            // Commit transaction
+            await transaction.CommitAsync();
+
+            return new UpdateInstructorResult { Success = true, Message = "Email successfully updated" };
+        } catch (DbUpdateConcurrencyException) {
+            // This is thrown when EF detects a concurrency conflict
+            return new UpdateInstructorResult { Success = false, Message = "Could not update email. Record was modified by another user" };
+        } catch (Exception ex) {
+            return new UpdateInstructorResult { Success = false, Message = $"Error updating email: {ex.Message}" };
+        }
+    }
+
+    public class UpdateInstructorResult {
+        public bool Success { get; set; }
+        public string Message { get; set; }
     }
 }
 

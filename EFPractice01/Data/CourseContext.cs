@@ -54,6 +54,9 @@ namespace EFPractice01.Data {
                 .Property(c => c.Price)
                 .HasColumnType("decimal(10,2)");
 
+            modelBuilder.Entity<Course>()
+                .HasQueryFilter(c => !c.IsDeleted); 
+
             // Instructor
             modelBuilder.Entity<Instructor>()
                 .HasMany(i => i.Mentees)
