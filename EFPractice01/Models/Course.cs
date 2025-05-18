@@ -22,6 +22,8 @@ namespace EFPractice01.Models {
         [Range(0, 10000.00)]
         public decimal Price { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
         public List<Instructor> Instructors { get; set; } = [];
 
         public List<Lesson> Lessons { get; set; } = [];

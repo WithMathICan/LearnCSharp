@@ -16,6 +16,8 @@ namespace EFPractice01.Models {
         [MaxLength(100)]
         public string Email { get; set; } = "";
 
+        public byte[] RowVersion { get; set; }
+
         public int? MentorId { get; set; }
 
         public Instructor? Mentor { get; set; }

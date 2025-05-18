@@ -1,6 +1,7 @@
 ﻿using EFPractice01.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 
 namespace EFPractice01.Data {
@@ -12,6 +13,7 @@ namespace EFPractice01.Data {
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<QuizStudent> QuizStudents { get; set; }
+        public DbSet<Operation> Operations { get; set; }
         //public DbSet<CourseInstructor> CourseInstructors { get; set; }
         //public DbSet<CourseStudent> CourseStudents { get; set; }
 
@@ -20,7 +22,9 @@ namespace EFPractice01.Data {
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            optionsBuilder
+                .UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                //.LogTo(Console.WriteLine, LogLevel.Information);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -46,6 +50,10 @@ namespace EFPractice01.Data {
                 .WithOne(lesson => lesson.Course)
                 .HasForeignKey(lesson => lesson.CourseId);
 
+            modelBuilder.Entity<Course>()
+                .Property(c => c.Price)
+                .HasColumnType("decimal(10,2)");
+
             // Instructor
             modelBuilder.Entity<Instructor>()
                 .HasMany(i => i.Mentees)
@@ -55,6 +63,10 @@ namespace EFPractice01.Data {
             modelBuilder.Entity<Instructor>()
                 .HasIndex(i => i.Email)
                 .IsUnique();
+
+            modelBuilder.Entity<Instructor>()
+                .Property(i => i.RowVersion)
+                .IsRowVersion();
 
             // Lesson
             modelBuilder.Entity<Lesson>()
@@ -78,6 +90,10 @@ namespace EFPractice01.Data {
                 .HasMany(s => s.Reviews)
                 .WithOne(r => r.Student)
                 .HasForeignKey(r => r.StudentId);
+
+            modelBuilder.Entity<Operation>()
+                .HasIndex(o => o.OperationId)
+                .IsUnique();
         }
     }
 }
