@@ -76,7 +76,7 @@ class Exercises {
         using (var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.RepeatableRead)) {
             try {
                 var existing = await context.Instructors.FirstOrDefaultAsync(i => i.Id == instructorId);
-                if (existing.RowVersion != instructor.RowVersion) {
+                if (existing?.RowVersion != instructor.RowVersion) {
                     Console.WriteLine("Could not change Email. Record was changed by another user");
                     return;
                 }
@@ -146,7 +146,7 @@ class Exercises {
 
     public class UpdateInstructorResult {
         public bool Success { get; set; }
-        public string Message { get; set; }
+        public string Message { get; set; } = "";
     }
 }
 

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace EFPractice01.Models {
     public class Lesson {
@@ -17,6 +18,8 @@ namespace EFPractice01.Models {
         public int OrderNumber { get; set; }
 
         public int CourseId { get; set; }
+
+        [JsonIgnore]
         public Course? Course { get; set; }
 
         public List<Quiz> Quizzes { get; set; } = [];

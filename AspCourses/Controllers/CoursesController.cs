@@ -7,16 +7,18 @@ using Microsoft.EntityFrameworkCore;
 namespace AspCourses.Controllers {
     [Route("/api/courses")]
     [ApiController]
-    public class CoursesController {
+    public class CoursesController : ControllerBase {
         private readonly CourseContext _context;
 
-        internal CoursesController(CourseContext courseContext) {
-            _context = courseContext;
+        public CoursesController(CourseContext courseContext) {
+            _context = courseContext ?? throw new ArgumentNullException(nameof(courseContext));
         }
 
         [HttpGet]
-        internal async Task<ActionResult<IEnumerable<Course>>> GetCourses() {
+        public async Task<ActionResult<IEnumerable<Course>>> GetCourses(int page = 1, int pageSize = 10) {
             return await _context.Courses
+                .Skip(pageSize*(page - 1))
+                .Take(pageSize)
                 .AsNoTracking()
                 .Include(c => c.Lessons)
                 .ToListAsync();

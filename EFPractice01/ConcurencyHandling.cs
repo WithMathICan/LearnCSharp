@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace EFPractice01 {
     internal class ConcurencyHandling {
 
-        internal async Task TestConcurencyToken() {
+        internal void TestConcurencyToken() {
             using var context = CourseContext.Create();
             var instructor1 = context.Instructors.First();
             var instructor2 = context.Instructors.First();
