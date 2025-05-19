@@ -3,9 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-
 namespace EFPractice01.Data {
-    public class CourseContext : DbContext{
+    public class CourseContext : DbContext {
         public DbSet<Course> Courses { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
@@ -14,17 +13,22 @@ namespace EFPractice01.Data {
         public DbSet<Student> Students { get; set; }
         public DbSet<QuizStudent> QuizStudents { get; set; }
         public DbSet<Operation> Operations { get; set; }
-        //public DbSet<CourseInstructor> CourseInstructors { get; set; }
-        //public DbSet<CourseStudent> CourseStudents { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+        public CourseContext(DbContextOptions<CourseContext> options) : base(options) {}
+
+        // Static factory method for creating a context with options
+        public static CourseContext Create() {
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
-            optionsBuilder
-                .UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-                //.LogTo(Console.WriteLine, LogLevel.Information);
+
+            var optionsBuilder = new DbContextOptionsBuilder<CourseContext>();
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            // Uncomment to enable logging if needed:
+            // optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+
+            return new CourseContext(optionsBuilder.Options);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {

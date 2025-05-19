@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 internal class Program {
     static async Task Main() {
         var testingEF = new TestingEF();
-        using var context = new CourseContext();
+        using var context = CourseContext.Create();
         ConcurencyHandling ch = new();
         OperationId testOperationId = new();
         try {
@@ -23,7 +23,7 @@ internal class Program {
 
 class Exercises {
     internal async Task ReadCoursesAndLessons() {
-        using var context = new CourseContext();
+        using var context = CourseContext.Create();
         try {
             var courses = await context.Courses.Include(c => c.Lessons).AsNoTracking().ToListAsync();
             foreach (var c in courses) {
@@ -35,7 +35,7 @@ class Exercises {
     }
 
     internal async Task AddStudentsWithEnrollment() {
-        using var context = new CourseContext();
+        using var context = CourseContext.Create();
         Faker<Student> studentFaker = new Faker<Student>()
                 .RuleFor(c => c.Name, f => f.Person.FullName)
                 .RuleFor(c => c.Email, f => f.Internet.Email())
@@ -61,7 +61,7 @@ class Exercises {
     }
 
     internal async Task UpdateInstructorEmail(int instructorId, string newEmail) {
-        using var context = new CourseContext();
+        using var context = CourseContext.Create();
         var instructor = await context.Instructors.FirstOrDefaultAsync(i => i.Id == instructorId);
         if (instructor == null) {
             Console.WriteLine("Instructor does not exists");
@@ -90,7 +90,7 @@ class Exercises {
     }
 
     internal async Task SoftCourseDelete(int courseId) {
-        using var context = new CourseContext();
+        using var context = CourseContext.Create();
         var course = await context.Courses.FirstOrDefaultAsync(i => i.Id == courseId);
         if (course == null) {
             Console.WriteLine("Course does not exists");
@@ -106,7 +106,7 @@ class Exercises {
     }
 
     public async Task<UpdateInstructorResult> UpdateInstructorEmail_Claude(int instructorId, string newEmail) {
-        using var context = new CourseContext();
+        using var context = CourseContext.Create();
 
         // Start transaction to cover all operations
         using var transaction = await context.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead);
@@ -166,7 +166,7 @@ class TestingEF {
                 .RuleFor(c => c.Email, f => f.Internet.Email());
 
     internal async Task CreateCourses() {
-        using var context = new CourseContext();
+        using var context = CourseContext.Create();
         //var course = new Course() {
         //    Name = "Course 1",
         //    Description = "description 1",

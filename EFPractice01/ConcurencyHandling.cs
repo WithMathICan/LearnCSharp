@@ -9,7 +9,7 @@ namespace EFPractice01 {
     internal class ConcurencyHandling {
 
         internal async Task TestConcurencyToken() {
-            using var context = new CourseContext();
+            using var context = CourseContext.Create();
             var instructor1 = context.Instructors.First();
             var instructor2 = context.Instructors.First();
             instructor1.Name += "!";

@@ -31,7 +31,7 @@ namespace EFPractice01 {
         }
 
         internal async Task TestOperationId() {
-            using var context = new CourseContext();
+            using var context = CourseContext.Create();
             var operationId = Guid.NewGuid();
             Instructor instructor = context.Instructors.First();
             instructor.Name += "!";
