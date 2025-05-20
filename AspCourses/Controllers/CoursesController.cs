@@ -17,11 +17,18 @@ namespace AspCourses.Controllers {
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourses(int page = 1, int pageSize = 10) {
             return await _context.Courses
-                .Skip(pageSize*(page - 1))
+                .Skip(pageSize * (page - 1))
                 .Take(pageSize)
                 .AsNoTracking()
                 .Include(c => c.Lessons)
                 .ToListAsync();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Course>> CreateCourse(Course course) {
+            _context.Add(course);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetCourses), course);
         }
     }
 }

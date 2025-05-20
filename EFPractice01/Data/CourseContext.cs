@@ -59,7 +59,11 @@ namespace EFPractice01.Data {
                 .HasColumnType("decimal(10,2)");
 
             modelBuilder.Entity<Course>()
-                .HasQueryFilter(c => !c.IsDeleted); 
+                .HasQueryFilter(c => !c.IsDeleted);
+
+            modelBuilder.Entity<Course>()
+                .Property(c => c.Id)
+                .ValueGeneratedOnAdd();
 
             // Instructor
             modelBuilder.Entity<Instructor>()
