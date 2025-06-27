@@ -28,6 +28,12 @@ namespace Concurency {
                 }
                 Thread.Sleep(500); // Simulate work
             }
+            Monitor.Enter(_lock);
+            try {
+
+            } finally {
+                Monitor.Exit(_lock);
+            }
             lock (_lock) {
                 _isCompleted = true;
                 Monitor.Pulse(_lock); // Signal consumer to check completion

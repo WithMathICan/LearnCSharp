@@ -19,12 +19,12 @@ namespace Delegates {
             Console.WriteLine($"Normal invocation: {result1}");
 
             // Dynamic invocation
-            object result2 = calc.DynamicInvoke(5, 3);
+            object? result2 = calc.DynamicInvoke(5, 3);
             Console.WriteLine($"Dynamic invocation: {result2}");
 
             // Dynamic invocation with object array
             object[] parameters = { 10, 20 };
-            object result3 = calc.DynamicInvoke(parameters);
+            object? result3 = calc.DynamicInvoke(parameters);
             Console.WriteLine($"Dynamic invocation with array: {result3}");
         }
     }

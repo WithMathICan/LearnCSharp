@@ -24,6 +24,8 @@ namespace DataStructures {
 
     class List2 : IDisposable {
         List<MyList> list;
+        public MyList l = new MyList(20);
+
         public List2(int size) {
             list = new List<MyList>(size);
             for (int i = 0; i < size; i++) {
