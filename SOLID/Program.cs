@@ -38,7 +38,7 @@ namespace SOLID {
 
         
 
-        static void Main() {
+        static void Main1() {
             //int a = 10;
             //int b = a++;
             //int b = PPOp(ref a);
