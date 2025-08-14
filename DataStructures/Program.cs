@@ -83,7 +83,7 @@ class Program {
         Console.WriteLine(m);
     }
 
-    static void Main() {
+    static void Main1() {
         //Set.TestSet();
         //Logger logger = new Logger();
         //logger.Log("Тестовое сообщение");

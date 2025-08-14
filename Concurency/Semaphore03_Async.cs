@@ -72,7 +72,7 @@ namespace Concurency {
             }
         }
 
-        static async Task Main() {
+        static async Task Main1() {
             using var semaphore = new Semaphore03_Async(2, 5);
             //using var semaphore = new SemaphoreSlim(2, 5);
             semaphore.Wait();
